@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gigante-bi:latest
+    container_name: gigante_bi_web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./dev.db
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=super-secret-key-for-local-dev-12345
+    # Remove the comments below when migrating to PostgreSQL in production
+    # depends_on:
+    #   - db
+    
+  # db:
+  #   image: postgres:15-alpine
+  #   container_name: bi_gigante_db
+  #   restart: always
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: postgrespassword
+  #     POSTGRES_DB: bi_gigante
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:

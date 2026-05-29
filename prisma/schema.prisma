@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev2.db"
+}
+
+model fact_atendimentos {
+  id                            Int       @id @default(autoincrement())
+  conversation_id               Int?      @unique
+  contato_nome                  String?
+  contato_fone                  String?
+  canal                         String?
+  origem                        String?
+  intent_principal              String?
+  sub_intent                    String?
+  time_responsavel              String?
+  status_conversa               String?
+  data_inicio                   DateTime?
+  data_primeira_resposta_humana DateTime?
+  data_fechamento               DateTime?
+  espera_segundos               Int?      @default(0)
+  atendimento_segundos          Int?      @default(0)
+  total_mensagens               Int?      @default(0)
+  atualizado_em                 DateTime?
+
+}
+
+model usuarios {
+  id         String   @id @default(uuid())
+  nome       String
+  email      String   @unique
+  senha_hash String
+  criado_em  DateTime @default(now())
+
+}
