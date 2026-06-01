@@ -136,7 +136,14 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
   });
   
   const subIntentMap: Record<string, string> = {
-    'status_pedido': 'outra'
+    'status_pedido': 'outra',
+    'pagamento': 'outra',
+    'prazo': 'outra',
+    'preco': 'outra',
+    'preço': 'outra',
+    'curriculo': 'currículos',
+    'currículo': 'currículos',
+    'curriculos': 'currículos'
   };
 
   const aggregatedSpecialties: Record<string, number> = {};
@@ -146,19 +153,19 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
     aggregatedSpecialties[mappedIntent] = (aggregatedSpecialties[mappedIntent] || 0) + d._count.id;
   });
 
-  let chartSpecialty = Object.entries(aggregatedSpecialties).map(([name, value]) => ({ name, value }));
-
   // Buscar currículos (baseado em intent_principal)
   const curriculosCount = await prisma.fact_atendimentos.count({
     where: { 
       data_inicio: { gte: currentStart, lte: currentEnd }, 
-      intent_principal: { contains: 'urriculo' } 
+      intent_principal: { contains: 'urriculo', mode: 'insensitive' } 
     }
   });
 
   if (curriculosCount > 0) {
-    chartSpecialty.push({ name: 'currículos', value: curriculosCount });
+    aggregatedSpecialties['currículos'] = (aggregatedSpecialties['currículos'] || 0) + curriculosCount;
   }
+
+  let chartSpecialty = Object.entries(aggregatedSpecialties).map(([name, value]) => ({ name, value }));
 
   // Ordenar por valor (decrescente)
   chartSpecialty.sort((a, b) => b.value - a.value);
