@@ -104,6 +104,8 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
 
   const origemMap: Record<string, string> = {
     'referencia': 'indicação',
+    'indicacao': 'indicação',
+    'indicação': 'indicação',
     'anuncio': 'outros',
     'direto': 'outros'
   };
@@ -133,7 +135,18 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
     _count: { id: true }
   });
   
-  let chartSpecialty = bySpecialtyData.map(d => ({ name: d.sub_intent, value: d._count.id }));
+  const subIntentMap: Record<string, string> = {
+    'status_pedido': 'outra'
+  };
+
+  const aggregatedSpecialties: Record<string, number> = {};
+  bySpecialtyData.forEach(d => {
+    const rawIntent = d.sub_intent ? d.sub_intent.toLowerCase() : 'desconhecida';
+    const mappedIntent = subIntentMap[rawIntent] || rawIntent;
+    aggregatedSpecialties[mappedIntent] = (aggregatedSpecialties[mappedIntent] || 0) + d._count.id;
+  });
+
+  let chartSpecialty = Object.entries(aggregatedSpecialties).map(([name, value]) => ({ name, value }));
 
   // Buscar currículos (baseado em intent_principal)
   const curriculosCount = await prisma.fact_atendimentos.count({
