@@ -13,8 +13,8 @@ export default async function Dashboard({
   const startParam = resolvedSearchParams.start as string;
   const endParam = resolvedSearchParams.end as string;
   
-  const startDate = startParam ? new Date(startParam) : undefined;
-  const endDate = endParam ? new Date(new Date(endParam).setHours(23, 59, 59, 999)) : undefined;
+  const startDate = startParam ? new Date(startParam + "T00:00:00") : undefined;
+  const endDate = endParam ? new Date(endParam + "T23:59:59.999") : undefined;
 
   const metrics = await getDashboardMetrics(startDate, endDate);
 

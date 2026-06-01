@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  bi-frontend:
+    image: giganteprodutos/bi-de-atendimento:latest
+    container_name: gigante_bi_frontend
+    restart: always
+    environment:
+      # URL da base de produção (n8n/postgres)
+      - DATABASE_URL=postgresql://postgres:sua_senha_aqui@46.225.151.201:5432/bi_gigante?schema=atendimento
+      # O domínio de produção (Muito importante para o login do NextAuth funcionar!)
+      - NEXTAUTH_URL=https://dash.gigante.com.br
+      - NEXTAUTH_SECRET=44ef3380e227976e3ff5c13e9a11db9f
+    networks:
+      - rede_gigante
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager # Ou worker, conforme a distribuição de nós do seu cluster
+      labels:
+        - "traefik.enable=true"
+        
+        # Redirecionamento HTTP -> HTTPS (gerenciado pelo Traefik)
+        - "traefik.http.routers.bi-frontend-http.rule=Host(`dash.gigante.com.br`)"
+        - "traefik.http.routers.bi-frontend-http.entrypoints=web"
+        
+        # Rota HTTPS Principal
+        - "traefik.http.routers.bi-frontend.rule=Host(`dash.gigante.com.br`)"
+        - "traefik.http.routers.bi-frontend.entrypoints=websecure"
+        - "traefik.http.routers.bi-frontend.tls=true"
+        - "traefik.http.routers.bi-frontend.tls.certresolver=letsencryptresolver"
+        
+        # Porta interna do container (Next.js serve na porta 3000)
+        - "traefik.http.services.bi-frontend.loadbalancer.server.port=3000"
+        # Garante que o Traefik resolva o serviço pela rede correta
+        - "traefik.docker.network=rede_gigante"
+
+networks:
+  rede_gigante:
+    external: true
+    name: rede_gigante

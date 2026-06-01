@@ -53,7 +53,7 @@ export default function Header() {
           <Calendar className="w-4 h-4 opacity-80" />
           <button onClick={() => setShowDatePicker(!showDatePicker)} className="hover:underline focus:outline-none">
             {currentStart && currentEnd 
-              ? `${new Date(currentStart).toLocaleDateString('pt-BR')} - ${new Date(currentEnd).toLocaleDateString('pt-BR')}`
+              ? `${currentStart.split('-').reverse().join('/')} - ${currentEnd.split('-').reverse().join('/')}`
               : "Filtrar por data"}
           </button>
           

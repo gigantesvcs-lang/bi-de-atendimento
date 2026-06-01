@@ -10,29 +10,27 @@ datasource db {
 model fact_atendimentos {
   id                            Int       @id @default(autoincrement())
   conversation_id               Int?      @unique
-  contato_nome                  String?
-  contato_fone                  String?
-  canal                         String?
-  origem                        String?
-  intent_principal              String?
-  sub_intent                    String?
-  time_responsavel              String?
-  status_conversa               String?
-  data_inicio                   DateTime?
-  data_primeira_resposta_humana DateTime?
-  data_fechamento               DateTime?
-  espera_segundos               Int?      @default(0)
-  atendimento_segundos          Int?      @default(0)
+  contato_nome                  String?   @db.VarChar(255)
+  contato_fone                  String?   @db.VarChar(50)
+  canal                         String?   @db.VarChar(50)
+  origem                        String?   @db.VarChar(50)
+  intent_principal              String?   @db.VarChar(50)
+  sub_intent                    String?   @db.VarChar(50)
+  time_responsavel              String?   @db.VarChar(100)
+  status_conversa               String?   @db.VarChar(50)
+  data_inicio                   DateTime? @db.Timestamp(6)
+  data_primeira_resposta_humana DateTime? @db.Timestamp(6)
+  data_fechamento               DateTime? @db.Timestamp(6)
+  espera_segundos               Int?
+  atendimento_segundos          Int?
   total_mensagens               Int?      @default(0)
-  atualizado_em                 DateTime?
-
+  atualizado_em                 DateTime? @default(now()) @db.Timestamp(6)
 }
 
-model usuarios {
-  id         String   @id @default(uuid())
-  nome       String
-  email      String   @unique
-  senha_hash String
-  criado_em  DateTime @default(now())
-
+model fact_menu_escolhas {
+  id              Int       @id @default(autoincrement())
+  conversation_id Int?
+  etapa_menu      String?   @db.VarChar(100)
+  opcao_escolhida String?   @db.VarChar(255)
+  data_escolha    DateTime? @default(now()) @db.Timestamp(6)
 }

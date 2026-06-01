@@ -95,13 +95,28 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
   const tmaPrev = await getTma(prevStart, prevEnd);
   const tmaGrowth = tmaPrev === 0 ? 100 : ((tmaCurrent - tmaPrev) / tmaPrev) * 100;
 
-  // 6. Gráfico: Atendimentos por origem
+  // 6. Gráfico: Atendimentos por origem com mapeamento customizado
   const byOrigemData = await prisma.fact_atendimentos.groupBy({
     by: ['origem'],
     where: { data_inicio: { gte: currentStart, lte: currentEnd }, origem: { not: null } },
     _count: { id: true }
   });
-  const chartOrigem = byOrigemData.map(d => ({ name: d.origem || 'Desconhecida', value: d._count.id }));
+
+  const origemMap: Record<string, string> = {
+    'referencia': 'indicação',
+    'anuncio': 'outros',
+    'direto': 'outros'
+  };
+
+  const aggregatedOrigens: Record<string, number> = {};
+  byOrigemData.forEach(d => {
+    const rawOrigem = d.origem ? d.origem.toLowerCase() : 'desconhecida';
+    const mappedName = origemMap[rawOrigem] || rawOrigem;
+    aggregatedOrigens[mappedName] = (aggregatedOrigens[mappedName] || 0) + d._count.id;
+  });
+
+  const chartOrigem = Object.entries(aggregatedOrigens).map(([name, value]) => ({ name, value }));
+  chartOrigem.sort((a, b) => b.value - a.value);
 
   // 7. Gráfico: Atendimentos por Status (Barras horizontais)
   const chartStatus = [
