@@ -84,21 +84,21 @@ export default function DashboardContent({ metrics }: { metrics: any }) {
           </div>
         </div>
 
-        {/* Gráfico de Donut - Canais */}
+        {/* Gráfico de Donut - Origens */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col">
-          <h3 className="font-bold text-slate-800 mb-6">Atendimentos por Canal</h3>
+          <h3 className="font-bold text-slate-800 mb-6">Atendimentos por Origem</h3>
           <div className="h-[200px] relative">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={metrics.charts.canal}
+                  data={metrics.charts.origem}
                   innerRadius={60}
                   outerRadius={80}
                   paddingAngle={2}
                   dataKey="value"
                   stroke="none"
                 >
-                  {metrics.charts.canal.map((entry: any, index: number) => (
+                  {metrics.charts.origem.map((entry: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -112,7 +112,7 @@ export default function DashboardContent({ metrics }: { metrics: any }) {
           </div>
           
           <div className="mt-4 space-y-3">
-            {metrics.charts.canal.map((item: any, index: number) => (
+            {metrics.charts.origem.map((item: any, index: number) => (
               <div key={item.name} className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }}></div>
@@ -162,7 +162,7 @@ export default function DashboardContent({ metrics }: { metrics: any }) {
 
         {/* Gráfico de Barras - Especialidades */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <h3 className="font-bold text-slate-800 mb-6">Sub Intenções (Especialidades)</h3>
+          <h3 className="font-bold text-slate-800 mb-6">Sub Intenções (Especialidades e Currículos)</h3>
           <div className="h-[250px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={metrics.charts.specialty} layout="vertical" margin={{ top: 0, right: 30, left: 40, bottom: 0 }}>

@@ -95,13 +95,13 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
   const tmaPrev = await getTma(prevStart, prevEnd);
   const tmaGrowth = tmaPrev === 0 ? 100 : ((tmaCurrent - tmaPrev) / tmaPrev) * 100;
 
-  // 6. Gráfico: Atendimentos por canal
-  const byCanalData = await prisma.fact_atendimentos.groupBy({
-    by: ['canal'],
-    where: { data_inicio: { gte: currentStart, lte: currentEnd }, canal: { not: null } },
+  // 6. Gráfico: Atendimentos por origem
+  const byOrigemData = await prisma.fact_atendimentos.groupBy({
+    by: ['origem'],
+    where: { data_inicio: { gte: currentStart, lte: currentEnd }, origem: { not: null } },
     _count: { id: true }
   });
-  const chartCanal = byCanalData.map(d => ({ name: d.canal, value: d._count.id }));
+  const chartOrigem = byOrigemData.map(d => ({ name: d.origem || 'Desconhecida', value: d._count.id }));
 
   // 7. Gráfico: Atendimentos por Status (Barras horizontais)
   const chartStatus = [
@@ -111,13 +111,29 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
     { name: 'Abandonados', value: 0 } // Could calculate abandonment rate
   ];
 
-  // 8. Gráfico: Especialidades (sub_intent)
+  // 8. Gráfico: Especialidades (sub_intent) + Currículos
   const bySpecialtyData = await prisma.fact_atendimentos.groupBy({
     by: ['sub_intent'],
     where: { data_inicio: { gte: currentStart, lte: currentEnd }, sub_intent: { not: null } },
     _count: { id: true }
   });
-  const chartSpecialty = bySpecialtyData.map(d => ({ name: d.sub_intent, value: d._count.id }));
+  
+  let chartSpecialty = bySpecialtyData.map(d => ({ name: d.sub_intent, value: d._count.id }));
+
+  // Buscar currículos (baseado em intent_principal)
+  const curriculosCount = await prisma.fact_atendimentos.count({
+    where: { 
+      data_inicio: { gte: currentStart, lte: currentEnd }, 
+      intent_principal: { contains: 'urriculo' } 
+    }
+  });
+
+  if (curriculosCount > 0) {
+    chartSpecialty.push({ name: 'currículos', value: curriculosCount });
+  }
+
+  // Ordenar por valor (decrescente)
+  chartSpecialty.sort((a, b) => b.value - a.value);
   
   // 9. Timeline de atendimentos (Últimos dias selecionados)
   // Simple grouping by date (ignoring time) - in SQL it's easier, but we'll do it in memory for sqlite compatibility
@@ -153,7 +169,7 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
       tma: { value: tmaCurrent, growth: tmaGrowth }
     },
     charts: {
-      canal: chartCanal,
+      origem: chartOrigem,
       status: chartStatus,
       specialty: chartSpecialty,
       timeline: chartTimeline
