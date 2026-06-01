@@ -135,12 +135,14 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
     _count: { id: true }
   });
   
+  const validSpecialties = new Set([
+    'otorrino_oftalmo',
+    'endodontia',
+    'gineco_dermato',
+    'currículos'
+  ]);
+
   const subIntentMap: Record<string, string> = {
-    'status_pedido': 'outra',
-    'pagamento': 'outra',
-    'prazo': 'outra',
-    'preco': 'outra',
-    'preço': 'outra',
     'curriculo': 'currículos',
     'currículo': 'currículos',
     'curriculos': 'currículos'
@@ -150,7 +152,10 @@ export async function getDashboardMetrics(filterStartDate?: Date, filterEndDate?
   bySpecialtyData.forEach(d => {
     const rawIntent = d.sub_intent ? d.sub_intent.toLowerCase() : 'desconhecida';
     const mappedIntent = subIntentMap[rawIntent] || rawIntent;
-    aggregatedSpecialties[mappedIntent] = (aggregatedSpecialties[mappedIntent] || 0) + d._count.id;
+    
+    if (validSpecialties.has(mappedIntent)) {
+      aggregatedSpecialties[mappedIntent] = (aggregatedSpecialties[mappedIntent] || 0) + d._count.id;
+    }
   });
 
   // Buscar currículos (baseado em intent_principal)
