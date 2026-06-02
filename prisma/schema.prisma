@@ -42,3 +42,11 @@ model usuarios {
   senha_hash String    @db.VarChar(255)
   criado_em  DateTime? @default(now()) @db.Timestamp(6)
 }
+
+model configuracoes {
+  id               String    @id @default("global") @db.VarChar(50)
+  ai_provider      String    @default("google") @db.VarChar(50)
+  ai_model         String    @default("gemini-1.5-flash") @db.VarChar(100)
+  ai_api_key       String?   @db.Text
+  atualizado_em    DateTime? @default(now()) @db.Timestamp(6)
+}
