@@ -5,9 +5,8 @@ import { generateText, streamText, CoreMessage } from "ai";
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
 
-// Data sources
 import { getAtendimentosMetrics } from "../atendimentos/actions";
-import { getDashboardOverview } from "../actions";
+import { getDashboardMetrics } from "../actions";
 
 const prisma = new PrismaClient();
 
@@ -42,7 +41,7 @@ async function getProviderAndModel() {
 async function fetchContextData(contextId: string) {
   try {
     if (contextId === "visao_geral") {
-      const data = await getDashboardOverview();
+      const data = await getDashboardMetrics();
       return JSON.stringify(data, null, 2);
     } else if (contextId === "atendimentos") {
       const data = await getAtendimentosMetrics();
