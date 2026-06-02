@@ -28,4 +28,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/gigante-bi:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/bi-de-atendimento:latest
