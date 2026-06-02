@@ -24,15 +24,15 @@ export default async function ConfiguracoesPage() {
             <form action={createUser} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Nome</label>
-                <input name="nome" type="text" required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+                <input name="nome" type="text" required className="w-full text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                <input name="email" type="email" required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+                <input name="email" type="email" required className="w-full text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Senha</label>
-                <input name="password" type="password" required className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+                <input name="password" type="password" required className="w-full text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
               </div>
               <button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-xl transition-colors shadow-md shadow-teal-500/20">
                 Criar Usuário
