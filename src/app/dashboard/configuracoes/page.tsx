@@ -59,7 +59,7 @@ export default async function ConfiguracoesPage() {
                     <tr key={u.id} className="border-b border-slate-100 last:border-0 hover:bg-slate-50 transition-colors">
                       <td className="py-4 pr-4 font-medium text-slate-800">{u.nome}</td>
                       <td className="py-4 pr-4 text-slate-600">{u.email}</td>
-                      <td className="py-4 pr-4 text-slate-500 text-sm">{u.criado_em.toLocaleDateString('pt-BR')}</td>
+                      <td className="py-4 pr-4 text-slate-500 text-sm">{u.criado_em ? u.criado_em.toLocaleDateString('pt-BR') : '-'}</td>
                       <td className="py-4 pl-4 text-right">
                         <form action={deleteUser.bind(null, u.id)}>
                           <button type="submit" className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors" title="Deletar Usuário">
