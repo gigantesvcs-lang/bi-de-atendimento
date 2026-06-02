@@ -7,7 +7,9 @@ services:
     restart: always
     environment:
       # URL da base de produção (n8n/postgres)
-      - DATABASE_URL=postgresql://postgres:sua_senha_aqui@46.225.151.201:5432/bi_gigante?schema=atendimento
+      - DATABASE_URL=postgresql://postgres:DA61y8oOaGF1C1g4HXCC8zXAhHxvHdYQ@46.225.151.201:5432/bi_gigante?schema=atendimento
+      # URL da base do Chatwoot (Essencial para a tela de Atendimentos carregar)
+      - CHATWOOT_DATABASE_URL=postgresql://postgres:DA61y8oOaGF1C1g4HXCC8zXAhHxvHdYQ@46.225.151.201:5432/chatwoot
       # O domínio de produção (Muito importante para o login do NextAuth funcionar!)
       - NEXTAUTH_URL=https://dash.gigante.com.br
       - NEXTAUTH_SECRET=44ef3380e227976e3ff5c13e9a11db9f

@@ -32,9 +32,10 @@ export default function Sidebar() {
 
   return (
     <div className="w-64 bg-white border-r border-slate-200 flex flex-col h-full z-10">
-      <div className="p-6 border-b border-slate-200 flex justify-center items-center h-[72px]">
-        {/* Replace with your actual logo path */}
-        <Image src="/logo.png" alt="Gigante Logo" width={140} height={45} className="object-contain" />
+      <div className="p-4 border-b border-slate-200 flex justify-center items-center h-[90px]">
+        <div className="relative w-[80%] h-full">
+          <Image src="/logo.png" alt="Gigante Logo" fill className="object-contain" />
+        </div>
       </div>
 
       <div className="flex-1 py-6 flex flex-col gap-1">
