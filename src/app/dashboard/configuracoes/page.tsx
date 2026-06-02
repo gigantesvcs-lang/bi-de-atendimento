@@ -1,5 +1,6 @@
 import { getUsers, createUser, deleteUser } from "./actions";
 import { UserPlus, Trash2 } from "lucide-react";
+import PasswordInput from "./components/PasswordInput";
 
 export default async function ConfiguracoesPage() {
   const users = await getUsers();
@@ -32,7 +33,7 @@ export default async function ConfiguracoesPage() {
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Senha</label>
-                <input name="password" type="password" required className="w-full text-slate-900 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 focus:ring-2 focus:ring-teal-500 focus:outline-none" />
+                <PasswordInput />
               </div>
               <button type="submit" className="w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-2.5 rounded-xl transition-colors shadow-md shadow-teal-500/20">
                 Criar Usuário
