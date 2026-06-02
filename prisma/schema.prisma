@@ -34,3 +34,11 @@ model fact_menu_escolhas {
   opcao_escolhida String?   @db.VarChar(255)
   data_escolha    DateTime? @default(now()) @db.Timestamp(6)
 }
+
+model usuarios {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  nome       String    @db.VarChar(255)
+  email      String    @unique @db.VarChar(255)
+  senha_hash String    @db.VarChar(255)
+  criado_em  DateTime? @default(now()) @db.Timestamp(6)
+}

@@ -76,6 +76,8 @@ export default function DashboardContent({ metrics }: { metrics: any }) {
                 <YAxis axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
                 <Tooltip 
                   contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                  labelStyle={{ color: '#0f172a', fontWeight: 'bold' }}
+                  itemStyle={{ color: '#0f172a', fontWeight: '500' }}
                   cursor={{stroke: '#94a3b8', strokeWidth: 1, strokeDasharray: '4 4'}}
                 />
                 <Area type="monotone" dataKey="count" stroke="#0d9488" strokeWidth={3} fillOpacity={1} fill="url(#colorCount)" />
@@ -102,7 +104,11 @@ export default function DashboardContent({ metrics }: { metrics: any }) {
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} 
+                  labelStyle={{ color: '#0f172a', fontWeight: 'bold' }}
+                  itemStyle={{ color: '#0f172a', fontWeight: '500' }}
+                />
               </PieChart>
             </ResponsiveContainer>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -169,7 +175,12 @@ export default function DashboardContent({ metrics }: { metrics: any }) {
                 <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#e2e8f0" />
                 <XAxis type="number" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} />
                 <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{fill: '#64748b', fontSize: 12}} width={100} />
-                <Tooltip cursor={{fill: '#f8fafb'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Tooltip 
+                  cursor={{fill: '#f8fafb'}} 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} 
+                  labelStyle={{ color: '#0f172a', fontWeight: 'bold' }}
+                  itemStyle={{ color: '#0f172a', fontWeight: '500' }}
+                />
                 <Bar dataKey="value" fill="#0d9488" radius={[0, 4, 4, 0]} barSize={24} />
               </BarChart>
             </ResponsiveContainer>
